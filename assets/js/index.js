@@ -16,7 +16,6 @@ let btnPause = getById("btnPause")
 let btnEnd = getById("btnEnd")
 let lblScore = getById("lblScore")
 let selectDifficulty = getById("selectDifficulty")
-let modal = getById("modal")
 
 btnStart.addEventListener("click", function(event) {
   if (game.status === GAME_STATUS.not_started) {
@@ -46,7 +45,22 @@ function updateScoreLabel(newScore) {
   lblScore.textContent = "Score: " + newScore
 }
 
-function showModal(message) {
+let modal = getById("modal")
+let lblModalMessage = getById("lblModalMessage")
+let btnModal = getById("btnModal")
+let previousFunction = function () {}
+
+function showModal(message, btnLabel, onClickCallback) {
+  lblModalMessage.textContent = message
+  btnModal.textContent = btnLabel
+
+  btnModal.removeEventListener("click", previousFunction)
+  btnModal.addEventListener("click", onClickCallback)
+  previousFunction = onClickCallback
+
   modal.className = "modal is-active"
-  getById("modalMessage").textContent = message
+}
+
+function closeModal() {
+  modal.className = "modal"
 }

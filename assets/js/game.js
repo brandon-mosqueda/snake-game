@@ -1,5 +1,5 @@
 function random(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) ) + min;
+  return Math.floor(Math.random() * (max - min + 1) ) + min
 }
 
 const GAME_STATUS = {
@@ -50,10 +50,16 @@ Game.prototype.start = function() {
 Game.prototype.continue = function() {
   if (this.status === GAME_STATUS.paused) {
     this.status = GAME_STATUS.playing
+    closeModal()
   }
 }
 
 Game.prototype.pause = function() {
+  let callback = () => {
+    this.continue()
+  }
+  showModal("PAUSED", "Continue", callback)
+
   this.status = GAME_STATUS.paused
 }
 
@@ -63,7 +69,7 @@ Game.prototype.end = function() {
 }
 
 Game.prototype.lose = function() {
-  alert("You lose")
+  showModal("You lose with " + this.points + " points", "Acept", closeModal)
   this.end()
 }
 
@@ -103,7 +109,7 @@ Game.prototype.move = function() {
                           CELL_TYPE.snake)
     this.snake.add(nextStep.row, nextStep.column)
     this.board.updateCell(nextStep.row, nextStep.column,
-                          CELL_TYPE.snakeHead)
+                          CELL_TYPE.snakeHead, this.snake.direction)
 
     this.generateNewFeed()
   } else {
@@ -115,7 +121,7 @@ Game.prototype.move = function() {
     this.board.updateCell(priorLastElement.row, priorLastElement.column,
                           CELL_TYPE.empty)
     this.board.updateCell(this.snake.head.row, this.snake.head.column,
-                          CELL_TYPE.snakeHead)
+                          CELL_TYPE.snakeHead, this.snake.direction)
   }
 }
 

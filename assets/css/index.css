@@ -29,13 +29,24 @@
   justify-content: center;
 }
 
-.snake-head::after {
-  content: ":";
+.snake-head {
   font-size: 40px;
   color: white;
+}
+
+.up-down-head::after {
+  content: "..";
+}
+
+.left-right-head::after {
+  content: ":";
 }
 
 #lblScore {
   margin-left: auto;
   font-size: x-large;
+}
+
+.m-auto {
+  margin: auto;
 }

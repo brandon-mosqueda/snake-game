@@ -77,7 +77,7 @@ Board.prototype.toFeedCell = function(row, column) {
   cell.type = CELL_TYPE.feed
 }
 
-Board.prototype.toSnakeCell = function(row, column, isHead = false) {
+Board.prototype.toSnakeCell = function(row, column, isHead = false, direction) {
   let cell = this.board[row][column]
 
   cell.element.className = "cell snake-cell"
@@ -86,36 +86,28 @@ Board.prototype.toSnakeCell = function(row, column, isHead = false) {
   if (isHead) {
     cell.element.className += " snake-head"
     cell.type = CELL_TYPE.snakeHead
+
+    cell.element.className += direction === DIRECTION.up ||
+                              direction === DIRECTION.down ?
+                              " up-down-head" :
+                              " left-right-head"
+  } else {
+    cell.element.className += direction === DIRECTION.up ||
+                              direction === DIRECTION.down ?
+                              " left-right-border" :
+                              " up-down-border"
   }
 }
 
-Board.prototype.updateCell = function(row, column, cellType) {
+Board.prototype.updateCell = function(row, column, cellType,
+                                      direction = DIRECTION.right) {
   if (cellType === CELL_TYPE.empty) {
     this.toEmptyCell(row, column)
   } else if (cellType === CELL_TYPE.feed) {
     this.toFeedCell(row, column)
   } else if (cellType === CELL_TYPE.snake) {
-    this.toSnakeCell(row, column)
+    this.toSnakeCell(row, column, false, direction)
   } else if (cellType === CELL_TYPE.snakeHead) {
-    this.toSnakeCell(row, column, true)
-  }
-}
-
-Board.prototype.print = function() {
-  for (let i = 0; i < this.nRows; i++) {
-    let string = "";
-    for (let j = 0; j < this.nCols; j++) {
-      if (this.board[i][j].type === CELL_TYPE.empty) {
-        string += "."
-      } else if (this.board[i][j].type === CELL_TYPE.snake) {
-        string += "X"
-      } else if (this.board[i][j].type === CELL_TYPE.snakeHead) {
-        string += "O"
-      } else if (this.board[i][j].type === CELL_TYPE.feed) {
-        string += "W"
-      }
-    }
-
-    console.log(string);
+    this.toSnakeCell(row, column, true, direction)
   }
 }
