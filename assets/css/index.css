@@ -1,0 +1,41 @@
+#board {
+  height: 30rem;
+  border: solid;
+  padding: 0;
+  margin: auto;
+}
+
+.cell {
+  height: 35px;
+  width: 35px;
+  float: left;
+}
+
+.empty-cell {
+  background: white;
+}
+
+.feed-cell {
+  background: red;
+}
+
+.snake-cell {
+  background: green;
+}
+
+.snake-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.snake-head::after {
+  content: ":";
+  font-size: 40px;
+  color: white;
+}
+
+#lblScore {
+  margin-left: auto;
+  font-size: x-large;
+}
